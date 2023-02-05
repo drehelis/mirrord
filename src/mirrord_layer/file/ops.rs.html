@@ -575,6 +575,8 @@
 <a href="#575" id="575">575</a>
 <a href="#576" id="576">576</a>
 <a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
 </pre><pre class="rust"><code><span class="kw">use </span>core::ffi::CStr;
 <span class="kw">use </span>std::{ffi::CString, io::SeekFrom, os::unix::io::RawFd, path::PathBuf};
 
@@ -924,11 +926,13 @@
 ///
 /// **Bypassed** when trying to load system files, and files from the current working directory, see
 /// `open`.
-</span><span class="attr">#[tracing::instrument(level = <span class="string">&quot;trace&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read(local_fd: RawFd, read_amount: u64) -&gt; Detour&lt;ReadFileResponse&gt; {
-    <span class="comment">// We&#39;re only interested in files that are paired with mirrord-agent.
-    </span><span class="kw">let </span>remote_fd = get_remote_fd(local_fd)<span class="question-mark">?</span>;
+    get_remote_fd(local_fd).and_then(|remote_fd| remote_read(remote_fd, read_amount))
+}
 
+<span class="doccomment">/// Blocking request and wait on already found remote_fd
+</span><span class="attr">#[tracing::instrument(level = <span class="string">&quot;trace&quot;</span>)]
+</span><span class="kw">fn </span>remote_read(remote_fd: u64, read_amount: u64) -&gt; Detour&lt;ReadFileResponse&gt; {
     <span class="kw">let </span>(file_channel_tx, file_channel_rx) = oneshot::channel();
 
     <span class="kw">let </span>reading_file = Read {
