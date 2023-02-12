@@ -654,6 +654,9 @@
 <a href="#654" id="654">654</a>
 <a href="#655" id="655">655</a>
 <a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     collections::HashSet,
     io,
@@ -959,6 +962,8 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
         <span class="kw">let </span>connection_id = <span class="self">self</span>.index_allocator.next_index().unwrap();
 
+        <span class="kw">let </span>local_address = stream.local_addr()<span class="question-mark">?</span>.ip();
+
         <span class="kw">let </span>(read_half, write_half) = tokio::io::split(stream);
         <span class="self">self</span>.write_streams.insert(connection_id, write_half);
         <span class="self">self</span>.read_streams
@@ -974,7 +979,8 @@
             connection_id,
             destination_port: port,
             source_port: address.port(),
-            address: address.ip(),
+            remote_address: address.ip(),
+            local_address,
         });
 
         <span class="comment">// Send new connection to subscribed layer.
