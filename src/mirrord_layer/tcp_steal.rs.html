@@ -425,6 +425,8 @@
 <a href="#425" id="425">425</a>
 <a href="#426" id="426">426</a>
 <a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     collections::{HashMap, HashSet},
     net::SocketAddr,
@@ -454,7 +456,7 @@
 };
 <span class="kw">use </span>tokio_stream::StreamExt;
 <span class="kw">use </span>tokio_util::io::ReaderStream;
-<span class="kw">use </span>tracing::{error, trace, warn};
+<span class="kw">use </span>tracing::{error, info, trace, warn};
 
 <span class="kw">use crate</span>::{
     error::LayerError,
@@ -650,9 +652,11 @@
                 bytes: bytes.to_vec(),
             }))),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;connection id {connection_id:?} read error: {err:?}&quot;</span>);
-                <span class="prelude-val">None
-            </span>}
+                <span class="macro">info!</span>(<span class="string">&quot;connection id {connection_id:?} read error: {err:?}&quot;</span>);
+                <span class="prelude-val">Some</span>(ClientMessage::TcpSteal(
+                    LayerTcpSteal::ConnectionUnsubscribe(connection_id),
+                ))
+            }
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">self</span>.app_closed_connection(connection_id)),
         }
     }
