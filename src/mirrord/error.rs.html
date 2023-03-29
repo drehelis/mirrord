@@ -192,6 +192,8 @@
 <a href="#192" id="192">192</a>
 <a href="#193" id="193">193</a>
 <a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>miette::Diagnostic;
@@ -230,6 +232,8 @@
     </span>AgentClosedConnection,
     <span class="attr">#[error(<span class="string">&quot;Ping error {0:#?} - image version/arch mismatch?&quot;</span>)]
     </span>PingError(<span class="attr">#[from] </span>tokio::sync::mpsc::error::SendError&lt;mirrord_protocol::ClientMessage&gt;),
+    <span class="attr">#[error(<span class="string">&quot;Set sid failed {0:#?}, please report a bug&quot;</span>)]
+    </span>SetSidError(nix::Error),
 }
 
 <span class="attr">#[derive(Debug, Error, Diagnostic)]
