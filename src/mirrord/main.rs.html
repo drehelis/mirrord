@@ -378,6 +378,8 @@
 <a href="#378" id="378">378</a>
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
 </pre><pre class="rust"><code><span class="attr">#![feature(let_chains)]
 
 </span><span class="kw">use </span>std::{collections::HashMap, time::Duration};
@@ -584,10 +586,12 @@
     </span><span class="kw">let </span>err = execvp(binary.clone(), binary_args.clone());
     <span class="macro">error!</span>(<span class="string">&quot;Couldn&#39;t execute {:?}&quot;</span>, err);
     <span class="attr">#[cfg(all(target_os = <span class="string">&quot;macos&quot;</span>, target_arch = <span class="string">&quot;aarch64&quot;</span>))]
-    </span><span class="kw">if let </span>exec::Error::Errno(errno::Errno(<span class="number">86</span>)) = err {
-        <span class="comment">// &quot;Bad CPU type in executable&quot;
-        </span><span class="kw">if </span>_did_sip_patch {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(CliError::RosettaMissing(binary));
+    </span><span class="kw">if let </span>exec::Error::Errno(errno) = err {
+        <span class="kw">if </span>Into::&lt;i32&gt;::into(errno) == <span class="number">86 </span>{
+            <span class="comment">// &quot;Bad CPU type in executable&quot;
+            </span><span class="kw">if </span>_did_sip_patch {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(CliError::RosettaMissing(binary));
+            }
         }
     }
     <span class="prelude-val">Err</span>(CliError::BinaryExecuteFailed(binary, binary_args))
