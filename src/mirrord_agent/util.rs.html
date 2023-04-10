@@ -261,13 +261,6 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     clone::Clone,
     collections::{HashMap, HashSet},
@@ -285,7 +278,7 @@
 <span class="doccomment">/// Struct that helps you manage topic -&gt; subscribers
 ///
 /// When a topic has no subscribers, it is removed.
-</span><span class="attr">#[derive(Debug)]
+</span><span class="attr">#[derive(Debug, Default)]
 </span><span class="kw">pub struct </span>Subscriptions&lt;T, C&gt; {
     _inner: HashMap&lt;T, HashSet&lt;C&gt;&gt;,
 }
@@ -297,13 +290,6 @@
     </span>T: Eq + Hash + Clone + Copy,
     C: Eq + Hash + Clone + Copy,
 {
-    <span class="comment">// TODO(alex): Same as `IndexAllocator`, make a good `Default` impl, then delete this.
-    </span><span class="kw">pub fn </span>new() -&gt; Subscriptions&lt;T, C&gt; {
-        Subscriptions {
-            _inner: HashMap::new(),
-        }
-    }
-
     <span class="doccomment">/// Add a new subscription to a topic for a given client.
     </span><span class="kw">pub fn </span>subscribe(<span class="kw-2">&amp;mut </span><span class="self">self</span>, client: C, topic: T) {
         <span class="self">self</span>._inner
@@ -482,7 +468,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>sanity() {
-        <span class="kw">let </span><span class="kw-2">mut </span>subscriptions = Subscriptions::&lt;Port, <span class="kw">_</span>&gt;::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>subscriptions: Subscriptions&lt;Port, <span class="kw">_</span>&gt; = Default::default();
         subscriptions.subscribe(<span class="number">3</span>, <span class="number">2</span>);
         subscriptions.subscribe(<span class="number">3</span>, <span class="number">3</span>);
         subscriptions.subscribe(<span class="number">3</span>, <span class="number">1</span>);
