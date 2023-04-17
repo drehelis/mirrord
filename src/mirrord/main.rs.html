@@ -744,7 +744,7 @@
 <span class="attr">#[tokio::main]
 </span><span class="kw">async fn </span>main() -&gt; miette::Result&lt;()&gt; {
     <span class="kw">if let </span><span class="prelude-val">Ok</span>(console_addr) = std::env::var(<span class="string">&quot;MIRRORD_CONSOLE_ADDR&quot;</span>) {
-        mirrord_console::init_logger(<span class="kw-2">&amp;</span>console_addr).<span class="kw">await</span><span class="question-mark">?</span>;
+        mirrord_console::init_logger(<span class="kw-2">&amp;</span>console_addr)<span class="question-mark">?</span>;
     } <span class="kw">else </span>{
         registry()
             .with(fmt::layer().with_writer(std::io::stderr))
