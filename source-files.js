@@ -74,6 +74,7 @@ var sourcesIndex = JSON.parse('{\
 "downcast":["",[],["lib.rs"]],\
 "dyn_clone":["",[],["lib.rs","macros.rs"]],\
 "either":["",[],["lib.rs"]],\
+"email_address":["",[],["lib.rs"]],\
 "encode_unicode":["",[],["decoding_iterators.rs","errors.rs","lib.rs","traits.rs","utf16_char.rs","utf16_iterators.rs","utf8_char.rs","utf8_iterators.rs"]],\
 "encoding_rs":["",[],["ascii.rs","big5.rs","data.rs","euc_jp.rs","euc_kr.rs","gb18030.rs","handles.rs","iso_2022_jp.rs","lib.rs","macros.rs","mem.rs","replacement.rs","shift_jis.rs","single_byte.rs","utf_16.rs","utf_8.rs","variant.rs","x_user_defined.rs"]],\
 "enum_as_inner":["",[],["lib.rs"]],\
