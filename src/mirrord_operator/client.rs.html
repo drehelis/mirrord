@@ -258,14 +258,6 @@
 <a href="#258" id="258">258</a>
 <a href="#259" id="259">259</a>
 <a href="#260" id="260">260</a>
-<a href="#261" id="261">261</a>
-<a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
 </pre><pre class="rust"><code><span class="kw">use </span>futures::{SinkExt, StreamExt};
 <span class="kw">use </span>http::request::Request;
 <span class="kw">use </span>kube::{error::ErrorResponse, Api, Client};
@@ -395,20 +387,12 @@
     }
 
     <span class="kw">async fn </span>get_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>version = <span class="kw">match </span><span class="self">self
-            </span>.version_api
+        <span class="self">self</span>.version_api
             .get(OPERATOR_STATUS_NAME)
             .<span class="kw">await
             </span>.map_err(KubeApiError::KubeError)
             .map_err(OperatorApiError::KubeApiError)
-        {
-            <span class="prelude-val">Ok</span>(status) =&gt; status.spec.operator_version,
-            <span class="prelude-val">Err</span>(err) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Unable to get operator version: {}&quot;</span>, err);
-                <span class="kw">return </span><span class="prelude-val">Err</span>(err);
-            }
-        };
-        <span class="prelude-val">Ok</span>(version)
+            .map(|status| status.spec.operator_version)
     }
 
     <span class="kw">async fn </span>fetch_target(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;TargetCrd&gt;&gt; {
