@@ -742,7 +742,7 @@
             .<span class="kw">await
             </span>.map_err(KubeApiError::KubeError)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>params = ListParams::default()
+        <span class="kw">let </span>watcher_config = watcher::Config::default()
             .labels(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;job-name={mirrord_agent_job_name}&quot;</span>))
             .timeout(<span class="number">60</span>);
 
@@ -752,7 +752,7 @@
 
         <span class="kw">let </span>pod_api: Api&lt;Pod&gt; = get_k8s_resource_api(client, agent.namespace.as_deref());
 
-        <span class="kw">let </span>stream = watcher(pod_api.clone(), params).applied_objects();
+        <span class="kw">let </span>stream = watcher(pod_api.clone(), watcher_config).applied_objects();
         <span class="macro">pin!</span>(stream);
 
         <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(pod)) = stream.next().<span class="kw">await </span>{
@@ -868,7 +868,7 @@
             .<span class="kw">await
             </span>.map_err(KubeApiError::KubeError)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>params = ListParams::default()
+        <span class="kw">let </span>watcher_config = watcher::Config::default()
             .fields(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;metadata.name={}&quot;</span>, <span class="kw-2">&amp;</span>runtime_data.pod_name))
             .timeout(<span class="number">60</span>);
 
@@ -876,7 +876,7 @@
 
         <span class="kw">let </span>container_progress = progress.subtask(<span class="string">&quot;waiting for container to be ready...&quot;</span>);
 
-        <span class="kw">let </span>stream = watcher(pod_api.clone(), params).applied_objects();
+        <span class="kw">let </span>stream = watcher(pod_api.clone(), watcher_config).applied_objects();
         <span class="macro">pin!</span>(stream);
 
         <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(pod)) = stream.next().<span class="kw">await </span>{
