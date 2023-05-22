@@ -563,7 +563,7 @@
 
     <span class="kw">let </span>config = LayerConfig::from_env()<span class="question-mark">?</span>;
 
-    <span class="kw">if </span>config.agent.pause {
+    <span class="kw">if </span>config.pause {
         <span class="kw">if </span>config.agent.ephemeral {
             <span class="macro">error!</span>(<span class="string">&quot;Pausing is not yet supported together with an ephemeral agent container.&quot;</span>);
             <span class="macro">panic!</span>(<span class="string">&quot;Mutually exclusive arguments `--pause` and `--ephemeral-container` passed together.&quot;</span>);
