@@ -1767,7 +1767,7 @@
             <span class="prelude-val">Some</span>(response) = layer.http_response_receiver.recv() =&gt; {
                 layer.send(ClientMessage::TcpSteal(LayerTcpSteal::HttpResponse(response))).<span class="kw">await</span>.unwrap();
             }
-            <span class="kw">_ </span>= sleep(Duration::from_secs(<span class="number">60</span>)) =&gt; {
+            <span class="kw">_ </span>= sleep(Duration::from_secs(<span class="number">30</span>)) =&gt; {
                 <span class="kw">if </span>!layer.ping {
                     layer.send(ClientMessage::Ping).<span class="kw">await</span>.unwrap();
                     <span class="macro">trace!</span>(<span class="string">&quot;sent ping to daemon&quot;</span>);
