@@ -120,6 +120,7 @@ var sourcesIndex = JSON.parse('{\
 "dirs_sys":["",[],["lib.rs","xdg_user_dirs.rs"]],\
 "dirs_sys_next":["",[],["lib.rs","xdg_user_dirs.rs"]],\
 "displaydoc":["",[],["attr.rs","expand.rs","fmt.rs","lib.rs"]],\
+"dns_resolve":["",[],["main.rs"]],\
 "doc_comment":["",[],["lib.rs"]],\
 "downcast":["",[],["lib.rs"]],\
 "dyn_clone":["",[],["lib.rs","macros.rs"]],\
