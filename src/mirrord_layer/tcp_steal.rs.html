@@ -372,6 +372,8 @@
 <a href="#372" id="372">372</a>
 <a href="#373" id="373">373</a>
 <a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::{
     collections::{HashMap, HashSet},
     net::SocketAddr,
@@ -597,8 +599,10 @@
         <span class="self">self</span>.apply_port_mapping(<span class="kw-2">&amp;mut </span>listen);
         <span class="kw">let </span>request_port = listen.requested_port;
 
-        <span class="kw">if </span>!<span class="self">self</span>.ports_mut().insert(listen) {
-            <span class="macro">info!</span>(<span class="string">&quot;Port {request_port} already listening, might be on different address&quot;</span>);
+        <span class="kw">if </span><span class="self">self</span>.ports_mut().replace(listen).is_some() {
+            <span class="comment">// This can also be because we currently don&#39;t inform the tcp handler when an app closes
+            // a socket (stops listening).
+            </span><span class="macro">info!</span>(<span class="string">&quot;Received listen hook message for port {request_port} while already listening. Might be on different address&quot;</span>,);
             <span class="kw">return </span><span class="prelude-val">Ok</span>(());
         }
 
