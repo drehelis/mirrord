@@ -1016,7 +1016,7 @@
 };
 <span class="kw">use </span>socket2::SockAddr;
 <span class="kw">use </span>tokio::sync::oneshot;
-<span class="kw">use </span>tracing::{debug, error, trace};
+<span class="kw">use </span>tracing::{debug, error, info, trace};
 
 <span class="kw">use super</span>::{hooks::<span class="kw-2">*</span>, <span class="kw-2">*</span>};
 <span class="kw">use crate</span>::{
@@ -1108,7 +1108,7 @@
     Detour::Success(socket_fd)
 }
 
-<span class="attr">#[tracing::instrument(level = <span class="string">&quot;warn&quot;</span>, ret)]
+<span class="attr">#[tracing::instrument(level = <span class="string">&quot;trace&quot;</span>, ret)]
 </span><span class="kw">fn </span>bind_port(sockfd: c_int, domain: c_int, port: u16) -&gt; Detour&lt;()&gt; {
     <span class="kw">let </span>address = <span class="kw">match </span>domain {
         libc::AF_INET =&gt; <span class="prelude-val">Ok</span>(SockAddr::from(SocketAddr::new(
@@ -1218,7 +1218,7 @@
     } <span class="kw">else </span>{
         bind_port(sockfd, socket.domain, requested_address.port())
             .or_else(|e| {
-                <span class="macro">warn!</span>(<span class="string">&quot;bind -&gt; first `bind` failed on port {listen_port:?} with {e:?}, trying to bind to a random port&quot;</span>);
+                <span class="macro">info!</span>(<span class="string">&quot;bind -&gt; first `bind` failed on port {listen_port:?} with {e:?}, trying to bind to a random port&quot;</span>);
                 bind_port(sockfd, socket.domain, <span class="number">0</span>)
             }
         )
