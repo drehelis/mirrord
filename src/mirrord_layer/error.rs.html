@@ -351,6 +351,8 @@
 <a href="#351" id="351">351</a>
 <a href="#352" id="352">352</a>
 <a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::{env::VarError, net::SocketAddr, ptr, str::ParseBoolError};
 
 <span class="kw">use </span>errno::set_errno;
@@ -507,8 +509,10 @@
     <span class="attr">#[error(<span class="string">&quot;mirrord-layer: No connection found for id `{0}`!&quot;</span>)]
     </span>NoConnectionId(ConnectionId),
 
-    <span class="attr">#[error(<span class="string">&quot;mirrord-layer: Failed to find port `{0}`!&quot;</span>)]
-    </span>PortNotFound(u16),
+    <span class="attr">#[error(
+        <span class="string">&quot;mirrord-layer: Got new connection from daemon after layer already closed that socket.&quot;
+    </span>)]
+    </span>NewConnectionAfterSocketClose(ConnectionId),
 
     <span class="attr">#[error(<span class="string">&quot;mirrord-layer: Unmatched pong!&quot;</span>)]
     </span>UnmatchedPong,
