@@ -376,7 +376,7 @@
     <span class="doccomment">/// Error codes from [`libc`] that are **not** hard errors, meaning the operation may progress.
     ///
     /// Prefer using [`is_ignored_code`] instead of relying on this constant.
-    </span><span class="kw">const </span>IGNORE_ERROR_CODES: [i32; <span class="number">2</span>] = [libc::EINPROGRESS, libc::EAFNOSUPPORT];
+    </span><span class="kw">const </span>IGNORE_ERROR_CODES: [i32; <span class="number">3</span>] = [libc::EINPROGRESS, libc::EAFNOSUPPORT, libc::EADDRINUSE];
 
     <span class="doccomment">/// Checks if an error code from some [`libc`] function should be treated as a hard error, or
     /// not.
