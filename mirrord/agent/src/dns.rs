@@ -11,7 +11,7 @@ use tokio::sync::{
     mpsc::{self, Receiver, Sender},
     oneshot,
 };
-use tracing::{error, trace};
+use tracing::{debug, error, trace};
 use trust_dns_resolver::{system_conf::parse_resolv_conf, AsyncResolver, Hosts};
 
 use crate::{
@@ -37,18 +37,24 @@ async fn dns_lookup(root_path: &Path, host: String) -> RemoteResult<DnsLookup> {
     let resolv_conf_path = root_path.join("etc").join("resolv.conf");
     let hosts_path = root_path.join("etc").join("hosts");
 
-    let resolv_conf = fs::read(resolv_conf_path)?;
-    let hosts_file = File::open(hosts_path)?;
+    let resolv_conf =
+        fs::read(resolv_conf_path).inspect_err(|e| debug!("file open failed {e:?}"))?;
+    let hosts_file = File::open(hosts_path).inspect_err(|e| debug!("hosts file failed {e:?}"))?;
 
-    let (config, options) = parse_resolv_conf(resolv_conf)?;
-    let mut resolver = AsyncResolver::tokio(config, options)?;
+    let (config, options) = parse_resolv_conf(resolv_conf)
+        .inspect_err(|e| debug!("parse resolve conf failed {e:?}"))?;
+    let mut resolver = AsyncResolver::tokio(config, options)
+        .inspect_err(|e| debug!("starting resolver failed {e:?}"))?;
 
-    let hosts = Hosts::default().read_hosts_conf(hosts_file)?;
+    let hosts = Hosts::default()
+        .read_hosts_conf(hosts_file)
+        .inspect_err(|e| debug!("opening hosts file failed {e:?}"))?;
     resolver.set_hosts(Some(hosts));
 
     let lookup = resolver
         .lookup_ip(host)
         .await
+        .inspect_err(|e| debug!("resolve failed {e:?}"))
         .inspect(|lookup| trace!("lookup {lookup:#?}"))?
         .into();
 
