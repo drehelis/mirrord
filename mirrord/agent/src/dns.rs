@@ -32,7 +32,7 @@ pub struct DnsRequest {
 /// Uses `AsyncResolver:::lookup_ip` to resolve `host`.
 ///
 /// `root_path` is used to read `/proc/{pid}/root` configuration files when creating a resolver.
-#[tracing::instrument(level = "trace")]
+#[tracing::instrument(level = "trace", ret)]
 async fn dns_lookup(root_path: &Path, host: String) -> RemoteResult<DnsLookup> {
     let resolv_conf_path = root_path.join("etc").join("resolv.conf");
     let hosts_path = root_path.join("etc").join("hosts");
