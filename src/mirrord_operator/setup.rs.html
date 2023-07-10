@@ -786,8 +786,8 @@
         <span class="kw">let </span>SetupOptions { license, namespace } = options;
 
         <span class="kw">let </span>(license_secret, license_key) = <span class="kw">match </span>license {
-            LicenseType::Offline(license_key) =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(license_key)),
-            LicenseType::Online(license) =&gt; {
+            LicenseType::Online(license_key) =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(license_key)),
+            LicenseType::Offline(license) =&gt; {
                 (<span class="prelude-val">Some</span>(OperatorLicenseSecret::new(<span class="kw-2">&amp;</span>license, <span class="kw-2">&amp;</span>namespace)), <span class="prelude-val">None</span>)
             }
         };
