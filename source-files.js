@@ -432,7 +432,6 @@ var sourcesIndex = JSON.parse('{\
 "tower_layer":["",[],["identity.rs","layer_fn.rs","lib.rs","stack.rs","tuple.rs"]],\
 "tower_service":["",[],["lib.rs"]],\
 "tracing":["",[],["dispatcher.rs","field.rs","instrument.rs","level_filters.rs","lib.rs","macros.rs","span.rs","stdlib.rs","subscriber.rs"]],\
-"tracing_appender":["",[["rolling",[],["builder.rs"]]],["lib.rs","non_blocking.rs","rolling.rs","sync.rs","worker.rs"]],\
 "tracing_attributes":["",[],["attr.rs","expand.rs","lib.rs"]],\
 "tracing_core":["",[],["callsite.rs","dispatcher.rs","event.rs","field.rs","lazy.rs","lib.rs","metadata.rs","parent.rs","span.rs","stdlib.rs","subscriber.rs"]],\
 "tracing_log":["",[],["lib.rs","log_tracer.rs"]],\
