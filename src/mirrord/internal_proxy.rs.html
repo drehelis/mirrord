@@ -342,6 +342,12 @@
 <a href="#342" id="342">342</a>
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Internal proxy is accepting connection from local layers and forward it to agent
 //! while having 1:1 relationship - each layer connection is another agent connection.
 //!
@@ -355,7 +361,7 @@
 //! or let the [`OperatorApi`] handle the connection.
 
 </span><span class="kw">use </span>std::{
-    io::ErrorKind,
+    io::{ErrorKind, Write},
     net::{Ipv4Addr, SocketAddrV4},
     time::Duration,
 };
@@ -394,6 +400,11 @@
     // terminal fixes some side effects such as https://github.com/metalbear-co/mirrord/issues/1232
     </span>nix::unistd::setsid().map_err(InternalProxyError::SetSidError)<span class="question-mark">?</span>;
 
+    <span class="comment">// flush before redirection
+    </span>{
+        <span class="comment">// best effort
+        </span><span class="kw">let _ </span>= std::io::stdout().lock().flush();
+    }
     <span class="kw">for </span>fd <span class="kw">in </span>[libc::STDIN_FILENO, libc::STDOUT_FILENO, libc::STDERR_FILENO] {
         redirect_fd_to_dev_null(fd);
     }
@@ -523,9 +534,6 @@
         create_ping_loop(main_connection);
 
     print_port(<span class="kw-2">&amp;</span>listener)<span class="question-mark">?</span>;
-    <span class="kw">unsafe </span>{
-        detach_io()<span class="question-mark">?</span>;
-    }
 
     <span class="comment">// wait for first connection `FIRST_CONNECTION_TIMEOUT` seconds, or timeout.
     </span><span class="kw">let </span>(stream, <span class="kw">_</span>) = timeout(Duration::from_secs(args.timeout), listener.accept())
@@ -537,6 +545,10 @@
 
     <span class="kw">let </span>(agent_connection, <span class="kw">_</span>) = connect_and_ping(<span class="kw-2">&amp;</span>config).<span class="kw">await</span><span class="question-mark">?</span>;
     active_connections.spawn(connection_task(stream, agent_connection));
+
+    <span class="kw">unsafe </span>{
+        detach_io()<span class="question-mark">?</span>;
+    }
 
     <span class="kw">loop </span>{
         <span class="macro">tokio::select! </span>{
