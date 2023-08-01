@@ -683,6 +683,7 @@
 <a href="#683" id="683">683</a>
 <a href="#684" id="684">684</a>
 <a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::{collections::BTreeMap, convert::Infallible, io::Write, str::FromStr, sync::LazyLock};
 
 <span class="kw">use </span>k8s_openapi::{
@@ -1130,6 +1131,7 @@
                         <span class="string">&quot;userextras/sessionname&quot;</span>.to_owned(),
                         <span class="string">&quot;userextras/iam.gke.io/user-assertion&quot;</span>.to_owned(),
                         <span class="string">&quot;userextras/user-assertion.cloud.google.com&quot;</span>.to_owned(),
+                        <span class="string">&quot;userextras/principalid&quot;</span>.to_owned(),
                     ]),
                     verbs: <span class="macro">vec!</span>[<span class="string">&quot;impersonate&quot;</span>.to_owned()],
                     ..Default::default()
