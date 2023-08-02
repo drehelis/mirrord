@@ -115,7 +115,7 @@
 <span class="kw">use </span>mirrord_progress::Progress;
 <span class="kw">use </span>mirrord_protocol::{ClientMessage, DaemonMessage};
 <span class="kw">use </span>tokio::sync::mpsc;
-<span class="kw">use </span>tracing::{info, trace};
+<span class="kw">use </span>tracing::trace;
 
 <span class="kw">use crate</span>::{CliError, <span class="prelude-ty">Result</span>};
 
@@ -190,9 +190,9 @@
         ))
     } <span class="kw">else </span>{
         <span class="kw">if </span><span class="macro">matches!</span>(config.target, mirrord_config::target::TargetConfig{ path: <span class="prelude-val">Some</span>(mirrord_config::target::Target::Deployment{..}), ..}) {
-            <span class="macro">info!</span>(<span class="string">&quot;When targeting multi-pod deployments, mirrord impersonates the first pod in the deployment.\n \
+            progress.print_message(mirrord_progress::MessageKind::Warning,<span class="prelude-val">Some</span>( <span class="string">&quot;When targeting multi-pod deployments, mirrord impersonates the first pod in the deployment.\n \
                    Support for multi-pod impersonation requires the mirrord operator, which is part of mirrord for Teams.\n \
-                   To try it out, join the waitlist with `mirrord waitlist &lt;email address&gt;`, or at this link: https://metalbear.co/#waitlist-form&quot;</span>);
+                   To try it out, join the waitlist with `mirrord waitlist &lt;email address&gt;`, or at this link: https://metalbear.co/#waitlist-form&quot;</span>));
         }
         <span class="kw">let </span>k8s_api = KubernetesAPI::create(config)
             .<span class="kw">await
